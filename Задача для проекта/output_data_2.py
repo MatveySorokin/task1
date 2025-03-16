@@ -34,7 +34,7 @@ client_messages = extract_messages(df["history"].fillna(""), "Клиент")  # 
 operator_messages = [msg for msg in operator_messages if msg.strip()]
 client_messages = [msg for msg in client_messages if msg.strip()]
 
-# Создаем новые таблицы DataFrame с одной колонкой "history", разделенной на сообщения
+# Создаем новые таблицы DataFrame с одной колонкой history
 operator_df = pd.DataFrame({"history": operator_messages})
 client_df = pd.DataFrame({"history": client_messages})
 
