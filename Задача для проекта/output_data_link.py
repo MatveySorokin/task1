@@ -14,22 +14,22 @@ except Exception as e:
 
 # очистка текста
 def clean_text(text):
-    text = re.sub(r"\[.*?\]", "", text) # убираем содержимое в квадратных скобках
-    text = re.sub(r"[-]{2,}.*?[-]{2,}", "", text) # убираем строки с символами ----
-    text = re.sub(r"[\n\r\b\t]", " ", text) # убираем спецсимволы
-    text = re.sub(r"[^a-zA-Zа-яА-ЯёЁ0-9\s.,?!\-()\"';:]", "", text, flags=re.UNICODE) # оставляем только буквы, цифры, пробелы и знаки препинания
-    return text.strip() # убираем лишние пробелы по краям строки
+    text = re.sub(r"\[.*?\]", "", text) 
+    text = re.sub(r"[-]{2,}.*?[-]{2,}", "", text) 
+    text = re.sub(r"[\n\r\b\t]", " ", text) 
+    text = re.sub(r"[^a-zA-Zа-яА-ЯёЁ0-9\s.,?!\-()\"';:]", "", text, flags=re.UNICODE) 
+    return text.strip() 
 
 # функция обработки 
 def extract_messages(history, role):
-    messages = [] # пустой список
-    for entry in history: # проходим по каждому элементу столбца history
+    messages = [] 
+    for entry in history: 
         try:
-            logs = ast.literal_eval(entry) if isinstance(entry, str) else [] # преобразуем строку в список 
-            extracted = [clean_text(log.split('] ', 2)[-1]) for log in logs if f"[{role}]" in log] # разбиваем строку по (']') и берем само сообщение, если оно принадлежит нужной роли
-            messages.extend(extracted) # каждое сообщение в отдельную строку
-        except (ValueError, SyntaxError): # если ошибка в синтаксисе или преобразовании строки, пропускаем элемент
-            continue # пропускаем ошибочные записи
+            logs = ast.literal_eval(entry) if isinstance(entry, str) else [] 
+            extracted = [clean_text(log.split('] ', 2)[-1]) for log in logs if f"[{role}]" in log] 
+            messages.extend(extracted)
+        except (ValueError, SyntaxError): 
+            continue 
     return messages
 
 if "Вопрос" in df.columns:
